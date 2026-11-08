@@ -15,10 +15,10 @@ dans le popup de l'extension.
 
 | | |
 |---|---|
-| **Dépôt GitHub** | <https://github.com/duabamo/tp3-youtube-sentiment> |
+| **Dépôt GitHub** | <https://github.com/duabamo/youtube-sentiment> |
 | **API déployée** | `https://reimagined-space-umbrella-v66j497xvjrwfw4pp-7860.app.github.dev` |
 | **Documentation API** | `https://reimagined-space-umbrella-v66j497xvjrwfw4pp-7860.app.github.dev/docs` |
-| **Vidéo de démonstration** | `REMPLACER-PAR-LE-LIEN` |
+| **Vidéo de démonstration** | fournie séparément (fichier remis avec le rendu) |
 
 > L'API est hébergée dans un conteneur Docker tournant sur **GitHub Codespaces**.
 > Hugging Face Spaces ayant restreint les Docker Spaces aux comptes PRO en cours
@@ -135,7 +135,7 @@ Python 3.10+, Git, Google Chrome.
 ### Mise en place
 
 ```bash
-git clone https://github.com/VOTRE-USER/tp3-youtube-sentiment.git
+git clone https://github.com/duabamo/youtube-sentiment.git
 cd tp3-youtube-sentiment
 
 python -m venv venv

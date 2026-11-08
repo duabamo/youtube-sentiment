@@ -684,6 +684,40 @@ négatif.
 - La confiance est exposée par commentaire, ce qui permet à l'utilisateur
   d'identifier les prédictions fragiles.
 
+**Cas observé en production.** Lors du test de l'extension sur une vraie vidéo
+YouTube, le commentaire suivant est classé **négatif à 84,6 %** :
+
+> *« Ohhh! My ! God! Just watched 4 sec of her video and im like THE beauty on
+> her face »*
+
+L'inspection des poids du modèle sur ce commentaire est sans ambiguïté :
+
+| Token | Contribution → négatif | Contribution → positif |
+|---|---|---|
+| `sec` | **+1,681** | −0,332 |
+| `beauty` | **+0,882** | −0,611 |
+| `her` | +0,291 | +0,073 |
+| `watched` | +0,162 | +0,298 |
+| `face` | +0,053 | +0,235 |
+
+Deux mots font basculer la prédiction. `beauty` est appris comme marqueur négatif
+parce que, dans un corpus Reddit à coloration politique, il apparaît surtout dans
+des formulations sarcastiques. `sec` — qui signifie ici « secondes » — est
+vraisemblablement l'abréviation de *secular* ou *sector* dans le corpus
+d'entraînement : même chaîne de caractères, sens radicalement différent. Un sac
+de mots ne peut pas lever cette ambiguïté, puisqu'il ignore le contexte.
+
+On note aussi que `my`, `of`, `im` et `on` sont hors vocabulaire : sur 17 mots,
+le modèle n'en exploite que 12, et les deux plus lourds sont ceux qui l'égarent.
+
+Ce cas illustre trois points de fond. D'abord, les **89,3 % d'accuracy sont
+mesurés sur le test set Reddit** : la performance réelle sur des commentaires
+YouTube est nécessairement inférieure, car un score de test ne vaut que sur la
+distribution qui l'a produit. Ensuite, une **confiance de 84 % ne mesure pas la
+justesse** mais la netteté de la frontière de décision — un modèle peut être
+confiant et faux. Enfin, seul un modèle contextuel (section 10.1) lèverait
+l'ambiguïté de `sec`.
+
 **Solution de fond.** Réentraîner sur un corpus YouTube annoté. La limite est
 documentée dans le README plutôt que dissimulée.
 

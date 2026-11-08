@@ -14,7 +14,7 @@ git add .
 git commit -m "feat: projet MLOps complet - analyse de sentiment YouTube"
 
 # Créer d'abord un repo vide sur github.com, puis :
-git remote add origin https://github.com/VOTRE-USER/tp3-youtube-sentiment.git
+git remote add origin https://github.com/duabamo/youtube-sentiment.git
 git branch -M main
 git push -u origin main
 ```

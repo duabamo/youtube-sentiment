@@ -18,7 +18,7 @@ Crée d'abord un dépôt **vide** sur <https://github.com/new>, nommé
 
 ```powershell
 cd "C:\Users\bamoh\Downloads\industrie 4.0\tp3-youtube-sentiment"
-git remote add origin https://github.com/TON-USER/tp3-youtube-sentiment.git
+git remote add origin https://github.com/duabamo/youtube-sentiment.git
 git branch -M main
 git push -u origin main
 ```
