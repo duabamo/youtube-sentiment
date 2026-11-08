@@ -122,7 +122,11 @@ def _verifier_api_distante(base_url: str) -> int:
         )
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
-                return resp.status, json.loads(resp.read()), dict(resp.headers)
+                # Les noms d'en-tetes HTTP sont insensibles a la casse ; un
+                # dict() brut ne l'est pas. Le proxy de Codespaces peut
+                # renvoyer "Access-Control-Allow-Origin" en capitales.
+                entetes = {k.lower(): v for k, v in resp.headers.items()}
+                return resp.status, json.loads(resp.read()), entetes
         except urllib.error.HTTPError as exc:
             # Le corps d'une reponse d'erreur contient le detail renvoye par
             # l'API : sans cela, urllib ne montre que "HTTP Error 500" et le
@@ -163,6 +167,12 @@ def _verifier_api_distante(base_url: str) -> int:
     cors = headers.get("access-control-allow-origin")
     ok = cors in ("*", "https://www.youtube.com")
     print(f"[{'OK ' if ok else 'KO '}] CORS Access-Control-Allow-Origin = {cors}")
+    if not ok:
+        print("       en-tetes recus :")
+        for k, v in sorted(headers.items()):
+            print(f"         {k}: {v[:80]}")
+        print("       NB : le verdict qui compte est celui du navigateur.")
+        print("       Si l'extension Chrome fonctionne sur YouTube, CORS passe.")
     echecs += 0 if ok else 1
 
     # 4. Gestion d'erreur : batch vide
