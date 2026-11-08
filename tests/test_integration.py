@@ -120,8 +120,18 @@ def _verifier_api_distante(base_url: str) -> int:
                      "Origin": "https://www.youtube.com"},
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return resp.status, json.loads(resp.read()), dict(resp.headers)
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.status, json.loads(resp.read()), dict(resp.headers)
+        except urllib.error.HTTPError as exc:
+            # Le corps d'une reponse d'erreur contient le detail renvoye par
+            # l'API : sans cela, urllib ne montre que "HTTP Error 500" et le
+            # diagnostic est impossible.
+            if exc.code >= 500:
+                corps = exc.read().decode(errors="replace")
+                print(f"\n[KO ] {path} -> HTTP {exc.code}")
+                print(f"       reponse de l'API : {corps[:800]}\n")
+            raise
 
     echecs = 0
     print(f"\n=== Vérification de {base_url} ===\n")

@@ -39,7 +39,19 @@ RUN pip install --no-cache-dir -r requirements-prod.txt
 # --- Layer 2 : artefacts du modèle ----------------------------------------
 COPY models/sentiment_model.joblib models/sentiment_model.joblib
 
-# --- Layer 3 : code applicatif (souvent modifié -> dernier) ---------------
+# --- Smoke test au BUILD : le modele doit reellement predire --------------
+# Sans ce test, une incompatibilite de version entre le .joblib et la
+# scikit-learn installee ne se voit qu'a l'execution : /health repond
+# "healthy" (le modele se deserialise) mais /predict_batch renvoie 500.
+# Ici le build echoue immediatement, avec un message explicite.
+RUN python -c "\
+import joblib, sklearn, sys; \
+m = joblib.load('models/sentiment_model.joblib'); \
+p = m.predict(['this video is great', 'this is terrible']); \
+assert len(p) == 2, 'prediction invalide'; \
+print('[smoke test] OK - scikit-learn', sklearn.__version__, '- predictions', list(p))"
+
+# --- Layer 4 : code applicatif (souvent modifié -> dernier) ---------------
 COPY app_api.py .
 
 # --- Utilisateur non-root (requis par Hugging Face Spaces) ----------------
