@@ -7,8 +7,9 @@
   "use strict";
 
   /* ------------------------------------------------------------- config */
-  // Modifier API_BASE pour pointer vers le Space Hugging Face en production.
-  const API_BASE = "http://localhost:8000";
+  // API de production : conteneur Docker sur GitHub Codespaces (port 7860 public).
+  // En developpement local : "http://localhost:8000".
+  const API_BASE = "https://reimagined-space-umbrella-v66j497xvjrwfw4pp-7860.app.github.dev";
   const BATCH_SIZE = 100;
   const TIMEOUT_MS = 20000;
 

@@ -11,6 +11,25 @@ dans le popup de l'extension.
 
 ---
 
+## Liens du projet
+
+| | |
+|---|---|
+| **Dépôt GitHub** | <https://github.com/duabamo/tp3-youtube-sentiment> |
+| **API déployée** | `https://reimagined-space-umbrella-v66j497xvjrwfw4pp-7860.app.github.dev` |
+| **Documentation API** | `https://reimagined-space-umbrella-v66j497xvjrwfw4pp-7860.app.github.dev/docs` |
+| **Vidéo de démonstration** | `REMPLACER-PAR-LE-LIEN` |
+
+> L'API est hébergée dans un conteneur Docker tournant sur **GitHub Codespaces**.
+> Hugging Face Spaces ayant restreint les Docker Spaces aux comptes PRO en cours
+> de projet, la cible de déploiement a changé — voir la section 9.5 du rapport
+> technique. Le `Dockerfile` et `app_api.py` sont restés identiques.
+>
+> Le Codespace s'arrêtant après 30 minutes d'inactivité, l'API peut nécessiter
+> un redémarrage avant consultation.
+
+---
+
 ## 1. Description du projet
 
 ### Problématique
